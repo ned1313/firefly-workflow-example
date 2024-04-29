@@ -15,18 +15,18 @@ locals {
   resource_group_name = "${var.prefix}-${var.environment}-${random_integer.main.result}"
   environments = {
     development = {
-        vnet_address_space = ["10.64.0.0/16"]
-        subnets = {
-            web = "10.64.0.0/24"
-            app = "10.64.1.0/24"
-        }
+      vnet_address_space = ["10.64.0.0/16"]
+      subnets = {
+        web = "10.64.0.0/24"
+        app = "10.64.1.0/24"
+      }
     }
     staging = {
-        vnet_address_space = ["10.65.0.0/16"]
-        subnets = {
-            web = "10.65.0.0/24"
-            app = "10.65.1.0/24"
-        }
+      vnet_address_space = ["10.65.0.0/16"]
+      subnets = {
+        web = "10.65.0.0/24"
+        app = "10.65.1.0/24"
+      }
     }
   }
 }
@@ -37,6 +37,7 @@ resource "azurerm_resource_group" "main" {
   location = var.location
   tags = {
     environment = var.environment
+    version     = "1.1"
   }
 }
 

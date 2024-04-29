@@ -88,7 +88,7 @@ jobs:
       with:
         command: post-plan
         context: ""
-        plan-log-file: plan_log.jsonl
+        plan-log-file: plan_log.json
         plan-out-raw-file: plan_output_raw.log
         plan-output-file: plan_output.json
         workspace: workflow-test
