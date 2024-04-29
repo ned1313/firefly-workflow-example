@@ -67,7 +67,7 @@ jobs:
       if: steps.apply.outcome == 'success'
       uses: gofireflyio/fireflyci@v0.3.3
       with:
-        apply-log-file: apply_log.jsonl
+        apply-log-file: apply_log.json
         command: post-apply
         context: ""
         workspace: workflow-test
