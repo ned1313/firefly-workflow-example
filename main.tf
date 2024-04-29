@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "main" {
   location = var.location
   tags = {
     environment = var.environment
-    version     = "1.1"
+    version     = "1.2"
   }
 }
 
