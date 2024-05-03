@@ -7,6 +7,8 @@ on:
       - 'development/**'
       - '.github/workflows/dev*.yaml'
       - './**.tf'
+    branches:
+      - 'main'
 
 env:
   TF_LOG: INFO
@@ -34,6 +36,11 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: './development'
 
     steps:
     # Checkout the repository to the GitHub Actions runner

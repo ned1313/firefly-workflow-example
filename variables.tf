@@ -14,3 +14,13 @@ variable "prefix" {
   description = "Prefix value to use for Azure resources"
   default     = "taco"
 }
+
+variable "vnet_address_space" {
+  type        = list(string)
+  description = "Address space for the virtual network"
+}
+
+variable "subnets" {
+  type        = map(string)
+  description = "Subnets to create in the virtual network"
+}

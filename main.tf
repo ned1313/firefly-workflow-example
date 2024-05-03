@@ -6,22 +6,6 @@ resource "random_integer" "main" {
 
 locals {
   resource_group_name = "${var.prefix}-${var.environment}-${random_integer.main.result}"
-  environments = {
-    development = {
-      vnet_address_space = ["10.64.0.0/16"]
-      subnets = {
-        web = "10.64.0.0/24"
-        app = "10.64.1.0/24"
-      }
-    }
-    staging = {
-      vnet_address_space = ["10.65.0.0/16"]
-      subnets = {
-        web = "10.65.0.0/24"
-        app = "10.65.1.0/24"
-      }
-    }
-  }
 }
 
 # Resource Group
@@ -30,7 +14,7 @@ resource "azurerm_resource_group" "main" {
   location = var.location
   tags = {
     environment = var.environment
-    version     = "1.2"
+    version     = "1.3"
   }
 }
 
@@ -39,7 +23,7 @@ resource "azurerm_virtual_network" "main" {
   name                = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  address_space       = local.environments[var.environment].vnet_address_space
+  address_space       = var.vnet_address_space
 
   tags = {
     environment = var.environment
@@ -48,7 +32,7 @@ resource "azurerm_virtual_network" "main" {
 
 # Subnets
 resource "azurerm_subnet" "main" {
-  for_each = local.environments[var.environment].subnets
+  for_each = var.subnets
 
   name                 = each.key
   resource_group_name  = azurerm_resource_group.main.name

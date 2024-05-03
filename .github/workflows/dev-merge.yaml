@@ -6,6 +6,8 @@ on:
       - 'development/**'
       - '.github/workflows/dev*.yaml'
       - './**.tf'
+    branches:
+      - 'main'
 
 env:
   TF_LOG: INFO
