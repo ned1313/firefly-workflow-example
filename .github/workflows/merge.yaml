@@ -23,6 +23,10 @@ jobs:
       FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
       FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
 
+    env:
+      FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
+      FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
+
     # Use the Bash shell
     defaults:
       run:
