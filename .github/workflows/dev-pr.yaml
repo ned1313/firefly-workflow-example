@@ -95,8 +95,8 @@ jobs:
       with:
         command: post-plan
         context: ""
-        plan-log-file: plan_log.jsonl
-        plan-output-file: plan_output.jsonl
+        plan-log-file: ./development/plan_log.jsonl
+        plan-output-file: ./development/plan_output.jsonl
         workspace: dev-azure-taconet
       continue-on-error: true
       

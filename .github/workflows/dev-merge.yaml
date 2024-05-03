@@ -68,7 +68,7 @@ jobs:
       if: steps.apply.outcome == 'success'
       uses: gofireflyio/fireflyci@v0.3.3
       with:
-        apply-log-file: apply_log.jsonl
+        apply-log-file: ./development/apply_log.jsonl
         command: post-apply
         context: ""
         workspace: dev-azure-taconet
