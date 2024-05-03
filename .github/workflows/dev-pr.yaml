@@ -3,14 +3,18 @@ name: 'Run Plan on PR'
 
 on: 
   pull_request:
-    branches-ignore:
-        - 'main'
-        - 'feature/*'
+    paths:
+      - 'development/**'
+      - '.github/workflows/dev*.yaml'
+      - './**.tf'
 
 env:
   TF_LOG: INFO
   TF_INPUT: false
 
+defaults:
+  run:
+    working-directory: './development'
   
 permissions:
       id-token: write
@@ -24,6 +28,13 @@ jobs:
     env:
       FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
       FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
+      STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
+      CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+      RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
@@ -48,15 +59,8 @@ jobs:
 
     # Run Terraform init
     - name: Terraform Init
-      id: init
-      env:
-        STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
-        CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-        RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT" -backend-config="container_name=$CONTAINER_NAME" -backend-config="resource_group_name=$RESOURCE_GROUP_NAME" -backend-config="key=$GITHUB_BASE_REF.tfstate"
+      id: init      
+      run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT" -backend-config="container_name=$CONTAINER_NAME" -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
 
     # Run a Terraform fmt
     - name: Terraform format
@@ -76,22 +80,7 @@ jobs:
     # Run a Terraform plan
     - name: Terraform plan
       id: plan
-      env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      run: terraform plan -json -out=tf.plan -var environment=$GITHUB_BASE_REF -no-color > plan_log.json && terraform show -json tf.plan > plan_output.json 
-
-    # Firefly cost plan
-    - name: Firefly Post Plan
-      uses: gofireflyio/fireflyci@v0.3.3
-      with:
-        command: post-plan
-        context: ""
-        plan-log-file: plan_log.json
-        plan-output-file: plan_output.json
-        workspace: workflow-test
-      continue-on-error: true
+      run: terraform plan -json -out=tf.plan
       
     # Add a comment to pull requests with plan results weeeeeee
     - name: Add Plan Comment

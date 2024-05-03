@@ -1,10 +1,3 @@
-# Provider: AzureRM
-provider "azurerm" {
-  features {}
-  use_oidc = true
-
-}
-
 # Randmon ID for resource group
 resource "random_integer" "main" {
   min = 10000
