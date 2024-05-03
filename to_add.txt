@@ -1,0 +1,24 @@
+    # Add to plan command: > plan_log.jsonl && terraform show -json tf.plan > plan_output.jsonl
+
+    # Firefly cost plan
+    - name: Firefly Post Plan
+      uses: gofireflyio/fireflyci@v0.3.3
+      with:
+        command: post-plan
+        context: ""
+        plan-log-file: plan_log.jsonl
+        plan-output-file: plan_output.jsonl
+        workspace: dev-azure-taconet
+      continue-on-error: true
+
+     # Add to apply command -json > apply_log.jsonl
+
+    - name: Firefly Post Apply
+      if: steps.apply.outcome == 'success'
+      uses: gofireflyio/fireflyci@v0.3.3
+      with:
+        apply-log-file: apply_log.jsonl
+        command: post-apply
+        context: ""
+        workspace: dev-azure-taconet
+      continue-on-error: true
