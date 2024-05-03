@@ -21,20 +21,20 @@ variable "prefix" {
 }
 
 variable "vnet_address_space" {
-  type = string
+  type        = string
   description = "Address space for the virtual network"
 }
 
 variable "subnets" {
-  type = map(string)
+  type        = map(string)
   description = "Subnets to create in the virtual network"
 }
 
 module "vnet" {
-  source      = "../"
-  environment = var.environment
-  location    = var.location
-  prefix      = var.prefix
+  source             = "../"
+  environment        = var.environment
+  location           = var.location
+  prefix             = var.prefix
   vnet_address_space = var.vnet_address_space
-  subnets = var.subnets
+  subnets            = var.subnets
 }

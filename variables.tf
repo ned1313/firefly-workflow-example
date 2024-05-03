@@ -16,11 +16,11 @@ variable "prefix" {
 }
 
 variable "vnet_address_space" {
-  type = string
+  type        = string
   description = "Address space for the virtual network"
 }
 
 variable "subnets" {
-  type = map(string)
+  type        = map(string)
   description = "Subnets to create in the virtual network"
 }
