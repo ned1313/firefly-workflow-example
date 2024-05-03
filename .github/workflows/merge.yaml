@@ -19,6 +19,9 @@ jobs:
   terraform:
     name: 'Terraform Apply on Push'
     runs-on: ubuntu-latest
+    env:
+      FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
+      FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
 
     # Use the Bash shell
     defaults:
@@ -61,7 +64,7 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      run: terraform apply -var environment=$GITHUB_REF_NAME -auto-approve -json > apply_log.json
+      run: terraform apply -var environment=$GITHUB_REF_NAME -auto-approve -json > apply_log.jsonl
 
     - name: Firefly Post Apply
       if: steps.apply.outcome == 'success'
