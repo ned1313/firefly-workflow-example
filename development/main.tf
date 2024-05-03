@@ -21,7 +21,7 @@ variable "prefix" {
 }
 
 variable "vnet_address_space" {
-  type        = string
+  type        = list(string)
   description = "Address space for the virtual network"
 }
 
