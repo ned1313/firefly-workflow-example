@@ -11,10 +11,6 @@ env:
   TF_LOG: INFO
   TF_INPUT: false
 
-defaults:
-  run:
-    working-directory: './development'
-
 permissions:
   id-token: write
   contents: read
@@ -37,6 +33,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: './development'
 
     steps:
     # Checkout the repository to the GitHub Actions runner
