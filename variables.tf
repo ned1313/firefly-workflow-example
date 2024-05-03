@@ -6,11 +6,11 @@ variable "environment" {
 variable "location" {
   type        = string
   description = "Location value to use for Azure resources"
-  default = "eastus"
+  default     = "eastus"
 }
 
 variable "prefix" {
   type        = string
   description = "Prefix value to use for Azure resources"
-  default = "taco"
+  default     = "taco"
 }
