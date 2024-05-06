@@ -28,8 +28,6 @@ jobs:
   pr-infra-check:
     runs-on: ubuntu-latest
     env:
-      FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
-      FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
       STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
       CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
       RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
