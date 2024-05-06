@@ -62,14 +62,5 @@ jobs:
     # Run Terraform apply
     - name: Terraform Apply
       id: apply
-      run: terraform apply -auto-approve -json > apply_log.jsonl
+      run: terraform apply -auto-approve 
 
-    - name: Firefly Post Apply
-      if: steps.apply.outcome == 'success'
-      uses: gofireflyio/fireflyci@v0.3.3
-      with:
-        apply-log-file: ./development/apply_log.jsonl
-        command: post-apply
-        context: ""
-        workspace: dev-azure-taconet
-      continue-on-error: true
