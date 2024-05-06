@@ -28,6 +28,8 @@ jobs:
   pr-infra-check:
     runs-on: ubuntu-latest
     env:
+      FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
+      FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
       STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
       CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
       RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
@@ -85,7 +87,18 @@ jobs:
     # Run a Terraform plan
     - name: Terraform plan
       id: plan
-      run: terraform plan -json -out=tf.plan
+      run: terraform plan -json -out=tf.plan > plan_log.json && terraform show -json tf.plan > plan_output.json
+
+    # Firefly cost plan
+    - name: Firefly Post Plan
+      uses: gofireflyio/fireflyci@v0.3.3
+      with:
+        command: post-plan
+        context: ""
+        plan-log-file: ./development/plan_log.json
+        plan-output-file: ./development/plan_output.json
+        workspace: dev-azure-taconed
+      continue-on-error: true
       
     # Add a comment to pull requests with plan results weeeeeee
     - name: Add Plan Comment

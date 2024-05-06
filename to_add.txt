@@ -8,7 +8,7 @@
         context: ""
         plan-log-file: ./development/plan_log.json
         plan-output-file: ./development/plan_output.json
-        workspace: dev-azure-taconet
+        workspace: dev-azure-taconed
       continue-on-error: true
 
      # Add to apply command -json > apply_log.json
@@ -20,7 +20,7 @@
         apply-log-file: ./development/apply_log.json
         command: post-apply
         context: ""
-        workspace: dev-azure-taconet
+        workspace: dev-azure-taconed
       continue-on-error: true
 
 FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
