@@ -28,6 +28,8 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      FIREFLY_ACCESS_KEY: ${{ secrets.FIREFLY_ACCESS_KEY }}
+      FIREFLY_SECRET_KEY: ${{ secrets.FIREFLY_SECRET_KEY }}
 
     # Use the Bash shell
     defaults:
@@ -63,4 +65,14 @@ jobs:
     - name: Terraform Apply
       id: apply
       run: terraform apply -auto-approve
+
+    - name: Firefly Post Apply
+      if: steps.apply.outcome == 'success'
+      uses: gofireflyio/fireflyci@v0.3.3
+      with:
+        apply-log-file: ./development/apply_log.json
+        command: post-apply
+        context: ""
+        workspace: dev-azure-taconet
+      continue-on-error: true
 
