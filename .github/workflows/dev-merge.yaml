@@ -67,7 +67,6 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: Firefly Post Apply
-      if: steps.apply.outcome == 'success'
       uses: gofireflyio/fireflyci@v0.3.3
       with:
         apply-log-file: ./development/apply_log.json
